@@ -13,10 +13,10 @@ function bsTestimonialTemplate($atts)
 	$args = array('post_status' => 'publish', 'post_type' => 'testimonial', 'post_count' => $count);
 	$wp_query = new WP_Query($args);
 	echo '<div class="wrap-bstestimonials">';
-		if($title) { echo '<h3 class="bstestimonial-heading">'.$title.'</h3>'; }
 		while ($wp_query->have_posts() ) : $wp_query->the_post();
 			?>
 				<div class="bstestimonial<?php echo $post->ID ?>">
+					<?php if($title) { echo '<h3 class="bstestimonial-heading">'.$title.'</h3>'; } ?>
 					<?php echo get_the_post_thumbnail($post->ID) ?>
 					<div class="testimonial-content">
 						<?php the_content() ?>
