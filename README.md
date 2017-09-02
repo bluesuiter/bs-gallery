@@ -1,10 +1,10 @@
 # bs-testimonials
 Testimonial Plugin
 
-#ShortCode
+# ShortCode
 [bstestimonial slider=true]
 
-#Options
+# Options
 count {eg. count=3} || default: 1
 authour {eg. authour=true/false} || default: false
 title {eg. title=true/false} || default: false
