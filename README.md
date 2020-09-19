@@ -1,11 +1,7 @@
-# bs-testimonials
-Testimonial Plugin
+# bs-gallery
+Gallery Plugin
 
 # ShortCode
-[bstestimonial slider=true]
+[bs_gallery]
 
 # Options
-count {eg. count=3} || default: 1 <br/>
-authour {eg. authour=true/false} || default: false <br/>
-title {eg. title="define title here"} || default: false <br/>
-slider {eg. slider=true/false} || default: false <br/>
