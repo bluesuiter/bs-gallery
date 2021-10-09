@@ -3,8 +3,8 @@
 /*
  Plugin Name: BS-Gallery
  Plugin URI: 
- Description: Bs-Gallery
- Version: 0.1.1
+ Description: BS-Gallery
+ Version: 0.9.20
  Author: BlueSuiter's
  Author URI: 
  */

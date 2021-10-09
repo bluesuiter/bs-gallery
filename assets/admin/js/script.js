@@ -9,19 +9,28 @@ const bsGallery = {
                             <img class="w-75" id="img`+ rowId +`" src="`+ data.url +`"/>
                         </span>
                         <input type="hidden" class="file_id" value="`+ data.id +`" name="files[`+ rowId +`][file_id]"/>
+                        <input type="hidden" class="file_url" value="`+ data.url +`" name="files[`+ rowId +`][file_url]"/>
                         <input type="hidden" class="file_mime" value="`+ data.mime +`" name="files[`+ rowId +`][file_mime]"/>
                     </div>
                     <div class="col-6">
                         <input name="files[`+ rowId +`][file_title]" type="text" value="`+ data.title +`" class="d-block w-100 mb-1 regular-text grtitle" placeholder="File Title"/>
-                        <textarea name="files[`+ rowId +`][file_caption]" class="d-block w-100 grcaption" placeholder="File Description">`+ data.caption +`</textarea>
+                        <textarea name="files[`+ rowId +`][file_caption]" rows="3" class="d-block w-100 grcaption" placeholder="File Description">`+ data.caption +`</textarea>
                     </div>
                     <div class="col-2 text-center">
-                        <button type="button" data-rowid="`+ rowId +`" onclick="bsGallery.upload(this)" data-action="edit" class="dashicons w-auto h-auto dashicons-edit"></button>
-                        <button type="button" data-rowid="`+ rowId +`" class="dashicons dashicons-no-alt w-auto h-auto"></button>
-                        <button type="button" data-rowid="`+ rowId +`" class="dashicons dashicons-trash w-auto h-auto"></button>
+                        <button type="button" data-rowid="`+ rowId +`" onclick="bsGallery.upload(this)" data-action="edit" class="dashicons py-0 w-auto h-auto dashicons-edit"></button>
+                        <button type="button" data-rowid="`+ rowId +`" onclick="bsGallery.status(`+ rowId +`)" class="dashicons dashicons-no-alt w-auto h-auto py-0"></button>
+                        <button type="button" data-rowid="`+ rowId +`" onclick="bsGallery.trash(`+ rowId +`)" class="dashicons dashicons-trash w-auto h-auto py-0"></button>
                     </div>
                     <hr class="w-100" />
                 </div>`;
+    },
+
+    status: (rowId) => {
+        console.log('status', rowId)
+    },
+
+    trash: (rowId) => {
+        $('#grow'+rowId).remove();
     },
 
     upload: (ele) => {
@@ -63,13 +72,12 @@ const bsGallery = {
                 $('#grow'+rowId+' input.grcaption').val(attachment[0].caption);
             }
             else if (ele.attr('data-field'))
-            {console.log('i m in scnd!')
+            {
                 $('#thumbnail-prev').attr('src', attachment[0].icon);
                 $(ele.attr('data-field')).val(attachment[0].id);
             }
             else
             {
-                console.log('i m here!')
                 rowId = $('#glryBody tr').length;
                 $.each(attachment, function(id, val){
                     $('#glryBody').append(bsGallery.galleryRowTemplate(val));

@@ -6,7 +6,7 @@
  *
  * @package BsGallery\Inc
  */
-spl_autoload_register('ls_framework_autoload');
+spl_autoload_register('bs_gallery_autoload');
 
 /**
  * Dynamically loads the class attempting to be instantiated elsewhere in the
@@ -20,7 +20,7 @@ spl_autoload_register('ls_framework_autoload');
  *
  * @param string $class_name The fully-qualified name of the class to load.
  */
-function ls_framework_autoload($class_name) {
+function bs_gallery_autoload($class_name) {
 
     // If the specified $class_name does not include our namespace, duck out.
     if (false === strpos($class_name, 'BsGallery')) {
@@ -57,7 +57,7 @@ function ls_framework_autoload($class_name) {
                 $file_name = "$current.php";
             }
         } else {
-            $namespace = '/' . $current . $namespace;
+            $namespace = '/' . strtolower($current) . strtolower($namespace);
         }
     }
 

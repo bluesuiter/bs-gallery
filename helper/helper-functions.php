@@ -5,7 +5,8 @@
  */
 if (!function_exists('requestParam')) {
 
-    function requestParam($key) {
+    function requestParam($key)
+    {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         switch ($requestMethod) {
             case 'POST':
@@ -19,12 +20,12 @@ if (!function_exists('requestParam')) {
                 break;
         }
     }
-
 }
 
 if (!function_exists('handlePostData')) {
 
-    function handlePostData($key) {
+    function handlePostData($key)
+    {
         if (!is_array($key)) {
             if (isset($_POST[$key])) {
                 return htmlspecialchars(trim($_POST[$key]));
@@ -37,12 +38,12 @@ if (!function_exists('handlePostData')) {
             return $out;
         }
     }
-
 }
 
 if (!function_exists('handleGetData')) {
 
-    function handleGetData($key) {
+    function handleGetData($key)
+    {
         if (!is_array($key)) {
             if (isset($_GET[$key])) {
                 return htmlspecialchars(trim($_GET[$key]));
@@ -55,7 +56,6 @@ if (!function_exists('handleGetData')) {
             return $out;
         }
     }
-
 }
 
 if (!function_exists('getArrayValue')) {
@@ -85,7 +85,8 @@ if (!function_exists('getCustomExcerpt')) {
      * @return
      *  string
      */
-    function getCustomExcerpt($length, $postId) {
+    function getCustomExcerpt($length, $postId)
+    {
         $content = get_post($postId)->post_content;
         $content = apply_filters('the_excerpt', $content);
         $content = substr($content, 0, $length) . '...';
@@ -98,11 +99,9 @@ if (!function_exists('getCustomExcerpt')) {
         $content = strip_tags($content);
         return htmlspecialchars_decode(htmlspecialchars($content));
     }
-
 }
 
 if (!function_exists('getContentTrim')) {
-
     /**
      * getCustomExcerpt
      * @parameter
@@ -110,7 +109,8 @@ if (!function_exists('getContentTrim')) {
      * @return
      *  string
      */
-    function getContentTrim($content, $length = 150) {
+    function getContentTrim($content, $length = 150)
+    {
         $content = substr($content, 0, $length) . '...';
         $content = preg_replace('#<a.*?>([^>]*)</a>#i', '$1', $content);
         $content = preg_replace("/<img[^>]+\>/i", '', $content);
@@ -121,30 +121,28 @@ if (!function_exists('getContentTrim')) {
         $content = strip_tags($content);
         return $content;
     }
-
 }
-
 
 /**
  * print_r upgrade
  * */
 if (!function_exists('pr')) {
-
-    function pr($key) {
+    function pr($key)
+    {
         echo '<pre>', print_r($key), '</pre>';
     }
-
 }
 
-if(!function_exists('bsg_loadView')){
-    function bsg_loadView($view, $fields=array()) {
+if (!function_exists('bsg_loadView')) {
+    function bsg_loadView($view, $fields = array())
+    {
         if (!empty($fields)) {
             foreach ($fields as $key => $field) {
                 $$key = $field;
             }
         }
-    
-       $view = ls_framework_view . $view . '.php';
+
+        $view = bs_gallery_view . $view . '.php';
         if (!file_exists($view)) {
             echo 'View not found!';
             return false;
@@ -153,3 +151,37 @@ if(!function_exists('bsg_loadView')){
     }
 }
 
+if (!function_exists('getShareingLinks')) {
+    function getShareingLinks($attr = [])
+    {
+        ob_start();
+        global $post;
+        $url = isset($attr['url']) ? $attr['url'] : get_permalink($post->ID);
+        $title = isset($attr['title']) ? $attr['title'] : ($post->post_title);
+?>
+        <div class="social_media_links mt-2 mb-3">
+            <a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo $url ?>" class="share_fb"></a>
+            <a target="_blank" href="https://twitter.com/intent/tweet?url=<?php echo $url ?>&text=<?php echo $title ?>&via={user_id}&hashtags=step2step" class="share_twitter"></a>
+            <a target="_blank" href="<?php echo 'https://api.whatsapp.com/send?text=' . urlencode($url); ?>" class="share_whtsapp"></a>
+            <a target="_blank" href="mailto:{email_address}?subject=<?php echo $title ?>&body=<?php echo $url ?>" target="_blank" class="share_email"></a>
+        </div>
+<?php
+        return ob_get_contents();
+    }
+}
+add_shortcode('social_share_links', 'getShareingLinks');
+
+
+if (!function_exists('write_log')) {
+
+    function write_log($log)
+    {
+        if (true === WP_DEBUG) {
+            if (is_array($log) || is_object($log)) {
+                error_log(print_r($log, true));
+            } else {
+                error_log($log);
+            }
+        }
+    }
+}

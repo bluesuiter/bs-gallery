@@ -4,24 +4,24 @@
 require_once trailingslashit(dirname(__FILE__)) . 'inc/autoloader.php';
 require_once trailingslashit(dirname(__FILE__)) . 'helper/helper-functions.php';
 
-add_action('init', 'ls_framework_init');
+add_action('init', 'bs_gallery_init');
 
-if (!defined('ls_framework_path')) {
-    define('ls_framework_path', trailingslashit(dirname(__FILE__)));
+if (!defined('bs_gallery_path')) {
+    define('bs_gallery_path', trailingslashit(dirname(__FILE__)));
 }
 
-if (!defined('ls_framework_uri')) {
-    define('ls_framework_uri', (plugin_dir_url(__FILE__).'assets'));
+if (!defined('bs_gallery_uri')) {
+    define('bs_gallery_uri', (plugin_dir_url(__FILE__).'assets'));
 }
 
-if (!defined('ls_framework_view')) {
-    define('ls_framework_view', trailingslashit(dirname(__FILE__)) . "view/");
+if (!defined('bs_gallery_view')) {
+    define('bs_gallery_view', trailingslashit(dirname(__FILE__)) . "view/");
 }
 
 /**
  * Starts the plugin by initializing the meta box, its display, and then
  * sets the plugin in motion.
  */
-function ls_framework_init() {
-    $meta_box = new BsGallery\Controllers\BsGalleryController();
+function bs_gallery_init() {
+    $meta_box = new \BsGallery\Controllers\BsGalleryController();
 }

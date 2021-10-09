@@ -1,3 +1,6 @@
+label{display: block;line-height: 2;font-weight: bold;}
+.bsg_gallery .dashicons{line-height: 1.5;}
+.bsg_gallery textarea{resize: none;}
 .d-inline {display: inline !important;}
 .d-inline-block {display: inline-block !important;}
 .d-block {display: block !important;}
@@ -34,92 +37,24 @@
 .mt-4, .my-4 { margin-top: 1.5rem !important;}
 .mr-4,.mx-4 { margin-right: 1.5rem !important;}
 .mb-4,.my-4 { margin-bottom: 1.5rem !important;}
-
-.ml-4,
-.mx-4 {
-  margin-left: 1.5rem !important;
-}
-
-.m-5 {
-  margin: 3rem !important;
-}
-
-.mt-5,
-.my-5 {
-  margin-top: 3rem !important;
-}
-
-.mr-5,
-.mx-5 {
-  margin-right: 3rem !important;
-}
-
-.mb-5,
-.my-5 {
-  margin-bottom: 3rem !important;
-}
-
-.ml-5,
-.mx-5 {
-  margin-left: 3rem !important;
-}
-
-.p-0 {
-  padding: 0 !important;
-}
-
-.pt-0,
-.py-0 {
-  padding-top: 0 !important;
-}
-
-.pr-0,
-.px-0 {
-  padding-right: 0 !important;
-}
-
-.pb-0,
-.py-0 {
-  padding-bottom: 0 !important;
-}
-
-.pl-0,
-.px-0 {
-  padding-left: 0 !important;
-}
-
-.p-1 {
-  padding: 0.25rem !important;
-}
-
-.pt-1,
-.py-1 {
-  padding-top: 0.25rem !important;
-}
-
-.pr-1,
-.px-1 {
-  padding-right: 0.25rem !important;
-}
-
-.pb-1,
-.py-1 {
-  padding-bottom: 0.25rem !important;
-}
-
-.pl-1,
-.px-1 {
-  padding-left: 0.25rem !important;
-}
-
-.p-2 {
-  padding: 0.5rem !important;
-}
-
-.pt-2,
-.py-2 {
-  padding-top: 0.5rem !important;
-}
+.ml-4,.mx-4 { margin-left: 1.5rem !important;}
+.m-5 {margin: 3rem !important;}
+.mt-5,.my-5 {margin-top: 3rem !important;}
+.mr-5, .mx-5 { margin-right: 3rem !important;}
+.mb-5,.my-5 { margin-bottom: 3rem !important;}
+.ml-5,.mx-5 { margin-left: 3rem !important;}
+.p-0 {padding: 0 !important;}
+.pt-0,.py-0 {padding-top: 0 !important;}
+.pr-0,.px-0 { padding-right: 0 !important;}
+.pb-0,.py-0 { padding-bottom: 0 !important;}
+.pl-0,.px-0 { padding-left: 0 !important;}
+.p-1 {padding: 0.25rem !important;}
+.pt-1,.py-1 {padding-top: 0.25rem !important;}
+.pr-1,.px-1 { padding-right: 0.25rem !important;}
+.pb-1,.py-1 { padding-bottom: 0.25rem !important;}
+.pl-1,.px-1 {padding-left: 0.25rem !important;}
+.p-2 {padding: 0.5rem !important;}
+.pt-2,.py-2 {padding-top: 0.5rem !important;}
 
 .pr-2,
 .px-2 {
@@ -590,6 +525,8 @@
   background-color: rgba(255, 255, 255, 0.075);
 }
 
+
+
 @media (max-width: 575.98px) {
   .table-responsive-sm {
     display: block;
@@ -600,4 +537,19 @@
   .table-responsive-sm > .table-bordered {
     border: 0;
   }
+}
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
