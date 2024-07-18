@@ -88,16 +88,18 @@ if (!function_exists('getCustomExcerpt')) {
     function getCustomExcerpt($length, $postId)
     {
         $content = get_post($postId)->post_content;
-        $content = apply_filters('the_excerpt', $content);
-        $content = substr($content, 0, $length) . '...';
-        $content = preg_replace('#<a.*?>([^>]*)</a>#i', '$1', $content);
-        $content = preg_replace("/<img[^>]+\>/i", '', $content);
-        $content = preg_replace('/<iframe.*?>/', '', $content);
-        $content = preg_replace("/<img[^>]+\>/i", '', $content);
-        $content = str_replace("'", '', $content);
-        $content = strip_shortcodes($content);
-        $content = strip_tags($content);
-        return htmlspecialchars_decode(htmlspecialchars($content));
+        if (!empty($content)) {
+            $content = apply_filters('the_excerpt', $content);
+            $content = substr($content, 0, $length) . '...';
+            $content = preg_replace('#<a.*?>([^>]*)</a>#i', '$1', $content);
+            $content = preg_replace("/<img[^>]+\>/i", '', $content);
+            $content = preg_replace('/<iframe.*?>/', '', $content);
+            $content = preg_replace("/<img[^>]+\>/i", '', $content);
+            $content = str_replace("'", '', $content);
+            $content = strip_shortcodes($content);
+            $content = strip_tags($content);
+            return htmlspecialchars_decode(htmlspecialchars($content));
+        }
     }
 }
 
@@ -112,14 +114,16 @@ if (!function_exists('getContentTrim')) {
     function getContentTrim($content, $length = 150)
     {
         $content = substr($content, 0, $length) . '...';
-        $content = preg_replace('#<a.*?>([^>]*)</a>#i', '$1', $content);
-        $content = preg_replace("/<img[^>]+\>/i", '', $content);
-        $content = preg_replace('/<iframe.*?>/', '', $content);
-        $content = preg_replace("/<img[^>]+\>/i", '', $content);
-        $content = str_replace("'", '', $content);
-        $content = strip_shortcodes($content);
-        $content = strip_tags($content);
-        return $content;
+        if (!empty($content)) {
+            $content = preg_replace('#<a.*?>([^>]*)</a>#i', '$1', $content);
+            $content = preg_replace("/<img[^>]+\>/i", '', $content);
+            $content = preg_replace('/<iframe.*?>/', '', $content);
+            $content = preg_replace("/<img[^>]+\>/i", '', $content);
+            $content = str_replace("'", '', $content);
+            $content = strip_shortcodes($content);
+            $content = strip_tags($content);
+            return $content;
+        }
     }
 }
 
@@ -129,7 +133,9 @@ if (!function_exists('getContentTrim')) {
 if (!function_exists('pr')) {
     function pr($key)
     {
-        echo '<pre>', print_r($key), '</pre>';
+        echo '<pre>';
+        print_r($key);
+        echo '</pre>';
     }
 }
 
@@ -184,4 +190,10 @@ if (!function_exists('write_log')) {
             }
         }
     }
+}
+
+function fetchBsGalleryById($id)
+{
+    $objGallery = new \BsGallery\Controllers\GalleryController();
+    return $objGallery->show($id);
 }

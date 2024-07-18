@@ -20,6 +20,9 @@
                             <a href="<?= admin_url('admin.php?page=bsg_editGallery&id=' . $item['id']) ?>" title="Edit Gallery">
                                 <i class="dashicons dashicons-edit"></i>
                             </a>
+                            <a href="<?= admin_url('admin.php?page=bsg_editGallery&id=' . $item['id']) ?>" title="Delete Gallery">
+                                <i class="dashicons dashicons-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

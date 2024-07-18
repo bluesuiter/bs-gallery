@@ -1,16 +1,12 @@
 <div class="wrap">
-
     <h1 class="row">Add New Gallery</h1>
     <div id="poststuff">
         <form method="post" action="<?php echo admin_url('admin-post.php') ?>" name="create_gallery">
-
             <div id="post-body" class="metabox-holder columns-2">
-
                 <div id="post-body-content">
                     <div id="titlediv">
                         <div id="titlewrap">
-                            <label class="" id="title-prompt-text" for="title">Add gallery title</label>
-                            <input type="text" name="galleryName" size="30" value="" id="title" spellcheck="true" autocomplete="off">
+                            <input type="text" name="galleryName" size="30" placeholder="Add gallery title" value="" id="title" spellcheck="true" autocomplete="off">
                         </div>
                         <div class="inside">
                             <div id="edit-slug-box" class="hide-if-no-js">
@@ -43,6 +39,18 @@
                                             <input type="radio" name="galleryType" value="docs" /> Documents
                                         </span>
                                     </div>
+
+                                    <div class="misc-pub-section">
+                                        Template
+                                        <span class="d-block my-1">
+                                            <select required name="gallery_template">
+                                                <option value="">Select Template</option>
+                                                <option value="slider">Bootstrap Slider</option>
+                                                <option value="gallery">Grid Gallery</option>
+                                                <option value="default">No Template</option>
+                                            </select>
+                                        </span>
+                                    </div>
                                     <div class="clear"></div>
 
                                     <div id="major-publishing-actions">
@@ -55,14 +63,8 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-
-
-
-
         </form>
     </div>
 </div>

@@ -19,6 +19,7 @@ class BsGalleryController
     {
         $objGallery = new GalleryController();
         $objGallery->addActions();
+        $objGallery->defineShortcode();
 
         $objRestApi = new RestApiController();
         $objRestApi->registerApi();

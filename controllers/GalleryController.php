@@ -20,7 +20,13 @@ class GalleryController extends ControllerClass
     {
         add_menu_page('BS-Gallery', 'BS-Gallery', 'edit_posts', 'bsg_gallery', [$this, 'index'], 'dashicons-format-gallery', 15);
         add_submenu_page('bsg_gallery', 'Create Gallery', 'Create Gallery', 'edit_posts', 'bsg_createGallery', [$this, 'create']);
-        add_submenu_page('', 'Edit Gallery', 'Edit Gallery', 'edit_posts', 'bsg_editGallery', [$this, 'edit']);
+        add_submenu_page('edit_bsg_gallery', 'Edit Gallery', 'Edit Gallery', 'edit_posts', 'bsg_editGallery', [$this, 'edit']);
+    }
+
+    public function defineShortcode()
+    {
+        /** add short-code */
+        add_shortcode('bsgallery', [$this, 'handleGalleryShortcode']);
     }
 
     /**
@@ -51,45 +57,59 @@ class GalleryController extends ControllerClass
         $data = [
             'gallery_name' => sanitize_text_field(getArrayValue($_POST, 'galleryName')),
             'thumbnail' => sanitize_text_field(getArrayValue($_POST, 'thumbnail')),
+            'template' => sanitize_text_field(getArrayValue($_POST, 'gallery_template')),
             'type' => sanitize_text_field(getArrayValue($_POST, 'galleryType')),
             'created_by' => get_current_user_id(),
-            'created_at' => current_time('mysql')
+            'created_at' => current_time('mysql'),
+            'modified_at' => current_time('mysql')
         ];
         $galleryId = (new Gallery())->save($data);
 
         $files = getArrayValue($_POST, 'files');
+
         if (!empty($files)) :
             foreach ($files as $file) :
                 $data = [
+                    'id' => getArrayValue($file, 'id'),
                     'gallery_id' => $galleryId,
-                    'file_id' => getArrayValue($file, 'file_id'),
                     'file_title' => sanitize_text_field(getArrayValue($file, 'file_title')),
                     'file_caption' => sanitize_text_field(getArrayValue($file, 'file_caption')),
                     'file_mime' => getArrayValue($file, 'file_mime'),
                     'file_url' => getArrayValue($file, 'file_url'),
                     'status' => 1,
-                    'created_at' => current_time('mysql')
+                    'created_at' => current_time('mysql'),
+                    'modified_at' => current_time('mysql')
                 ];
                 (new GalleryFile())->save($data);
             endforeach;
         endif;
+
         return wp_redirect(admin_url('admin.php?page=bsg_gallery'));
     }
 
+    /**
+     * edit gallery
+     * @method get
+     */
     public function edit()
     {
         try {
             wp_enqueue_media();
             $id = getArrayValue($_GET, 'id');
+            $pageData = ['pageTitle' => 'Edit gallery', 'id' => $id];
+
             if (!empty($id)) {
                 $gallery = (new Gallery)->getGallery($id);
-                return bsg_loadView('gallery/edit', compact('gallery'));
+                return bsg_loadView('gallery/edit', compact('gallery', 'pageData'));
             }
         } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
 
+    /**
+     * update gallery entrydata
+     */
     public function update()
     {
         $this->verifyNonce('bsg_gallery', 'update_gallery');
@@ -97,56 +117,92 @@ class GalleryController extends ControllerClass
         $data = [
             'gallery_name' => sanitize_text_field(getArrayValue($_POST, 'galleryName')),
             'thumbnail' => sanitize_text_field(getArrayValue($_POST, 'thumbnail')),
+            'template' => sanitize_text_field(getArrayValue($_POST, 'gallery_template')),
             'type' => sanitize_text_field(getArrayValue($_POST, 'galleryType')),
             'modified_by' => get_current_user_id(),
             'modified_at' => current_time('mysql')
         ];
+
         $objGallery = new Gallery();
         $objGallery->update($galleryId, $data);
 
         /** get list of existing files */
         $objGalleryFile = new GalleryFile();
         $galleryFiles = $objGalleryFile->getFileByGalleryId($galleryId);
-        $galleryFiles = array_column($galleryFiles, 'file_id');
 
         /** get list of remove files */
-        $files = getArrayValue($_POST, 'files');
-        $newFiles = array_column($files, 'file_id');
-        $removedFiles = array_diff($galleryFiles, $newFiles);
-
-        /** check removed files */
-        if (!empty($removedFiles)) {
-            $objGalleryFile->removeFileFromGallery($galleryId, $removedFiles);
-        }
+        $uploadedFiles = getArrayValue($_POST, 'files');
 
         /** update files for gallery */
-        if (!empty($files)) :
-            foreach ($files as $file) :
+        if (!empty($uploadedFiles)) :
+            $comingFileIds = array_column($uploadedFiles, 'file_id');
+
+            $toRemove = [];
+            foreach ($galleryFiles as $row) {
+                if (!in_array($row['id'], $comingFileIds)) {
+                    $toRemove[] = $row['id'];
+                }
+            }
+
+            /** check removed files */
+            if (!empty($toRemove)) {
+                $objGalleryFile->removeFileFromGallery($galleryId, $toRemove);
+            }
+
+            foreach ($uploadedFiles as $file) :
+                $time = current_time('mysql');
+
                 $data = [
+                    'id' => getArrayValue($file, 'file_id'),
                     'gallery_id' => $galleryId,
-                    'file_id' => getArrayValue($file, 'file_id'),
                     'file_title' => sanitize_text_field(getArrayValue($file, 'file_title')),
                     'file_caption' => sanitize_text_field(getArrayValue($file, 'file_caption')),
                     'file_mime' => getArrayValue($file, 'file_mime'),
                     'file_url' => getArrayValue($file, 'file_url'),
-                    'status' => 1,
-                    'modified_at' => current_time('mysql')
+                    'status' => 1
                 ];
+
                 $objGalleryFile->updateOrCreate($data);
             endforeach;
         endif;
+
         return wp_redirect(admin_url('admin.php?page=bsg_gallery'));
     }
 
+    /**
+     * return gallery data by id
+     * @param int $galleryId
+     * @return object
+     */
     public function show($galleryId)
     {
-        $objGallery = new Gallery($galleryId);
+        $objGallery = new Gallery();
+        $galleryData = $objGallery->find($galleryId);
 
         /** get list of existing files */
         $objGalleryFile = new GalleryFile();
-        $objGallery->images = $objGalleryFile->getFileByGalleryId($galleryId);
+        $galleryData->media = $objGalleryFile->getFileByGalleryId($galleryId);
 
-        return $objGallery;
+        return $galleryData;
+    }
+
+    /**
+     * return response for the gallery template
+     */
+    public function handleGalleryShortcode($args)
+    {
+        if (!empty($args['id'])) {
+            $galleryData = $this->show($args['id']);
+            $template = '';
+
+            switch ($galleryData->template) {
+                case 'slider':
+                    $template = 'bootstrap-carousel';
+                    break;
+            }
+
+            return bsg_loadView("template/$template", compact('galleryData'));
+        }
     }
 
     public function fetchGallery(\WP_REST_Request $request)

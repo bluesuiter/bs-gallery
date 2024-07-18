@@ -8,6 +8,7 @@ class GalleryFile
 {
     private $table = 'bsg_gallery_files';
     private $db;
+    public $images;
 
     private function getTable()
     {
@@ -32,9 +33,11 @@ class GalleryFile
     {
         try {
             global $wpdb;
+
             $table = $wpdb->prefix . $this->table;
-            $sqlQry = "SELECT * FROM $table WHERE gallery_id=$galleryId";
-            return $wpdb->get_results($sqlQry, ARRAY_A);
+            $sqlQry = "SELECT * FROM $table WHERE gallery_id=%d";
+
+            return $wpdb->get_results($wpdb->prepare($sqlQry, [$galleryId]), ARRAY_A);
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -45,7 +48,7 @@ class GalleryFile
         try {
             global $wpdb;
             $table = $wpdb->prefix . $this->table;
-            $sqlQry = "DELETE FROM $table WHERE gallery_id=$galleryId AND file_id IN (" . implode(',', $files) . ")";
+            $sqlQry = "DELETE FROM $table WHERE gallery_id=$galleryId AND id IN (" . implode(',', $files) . ")";
             $wpdb->query($sqlQry);
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -56,16 +59,21 @@ class GalleryFile
     {
         try {
             global $wpdb;
+            $result = '';
             $table = $wpdb->prefix . $this->table;
 
-            $sqlQry = "SELECT id FROM $table 
-                        WHERE gallery_id=" . $data['gallery_id'] . " AND file_id=" . $data['file_id'];
-            $id = $wpdb->get_var($sqlQry);
+            $sqlQry = "SELECT id FROM $table WHERE gallery_id= %d AND id= %d";
+            $id = $wpdb->get_var($wpdb->prepare($sqlQry, [$data['gallery_id'], $data['id']]));
+
             if ($id) {
-                return $wpdb->update($table, $data, ['gallery_id' => $data['gallery_id'], 'file_id' => $data['file_id']]);
+                $data['modified_at'] = current_time('mysql');
+                $result = $wpdb->update($table, $data, ['gallery_id' => $data['gallery_id'], 'id' => $data['id']]);
+            } else {
+                $data['created_at'] = current_time('mysql');
+                $result = $this->save($data);
             }
-            return $this->save($data);
-            exit;
+
+            return $result;
         } catch (Exception $e) {
             echo $e->getMessage();
         }

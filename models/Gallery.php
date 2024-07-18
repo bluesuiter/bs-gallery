@@ -76,16 +76,21 @@ class Gallery
     {
         try {
             global $wpdb;
+
             /** gallery */
             $table = $wpdb->prefix . $this->table;
-            $sqlQry = "SELECT id, gallery_name, thumbnail, type 
-                        FROM $table gl WHERE id=$id";
+            $sqlQry = "SELECT id, gallery_name, thumbnail, type, template 
+                    FROM $table gl 
+                    WHERE id=$id";
+            
             $result = $wpdb->get_row($sqlQry, 'ARRAY_A');
 
             /** files */
             $table = $wpdb->prefix . $this->fileTable;
-            $sqlQry = "SELECT id as gfid, file_id, file_title, file_caption, file_mime, file_url, status  
-                        FROM $table ft WHERE gallery_id=$id";
+            $sqlQry = "SELECT id as gfid, file_title, file_caption, file_mime, file_url, status  
+                    FROM $table ft 
+                    WHERE gallery_id=$id";
+
             $result['files'] = $wpdb->get_results($sqlQry, 'ARRAY_A');
             return $result;
         } catch (Exception $e) {
