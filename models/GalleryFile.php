@@ -7,7 +7,6 @@ use Exception;
 class GalleryFile
 {
     private $table = 'bsg_gallery_files';
-    private $db;
     public $images;
 
     private function getTable()
@@ -35,7 +34,7 @@ class GalleryFile
             global $wpdb;
 
             $table = $wpdb->prefix . $this->table;
-            $sqlQry = "SELECT * FROM $table WHERE gallery_id=%d";
+            $sqlQry = "SELECT * FROM $table WHERE gallery_id=%d ORDER BY sort_order ASC";
 
             return $wpdb->get_results($wpdb->prepare($sqlQry, [$galleryId]), ARRAY_A);
         } catch (Exception $e) {
@@ -59,21 +58,17 @@ class GalleryFile
     {
         try {
             global $wpdb;
-            $result = '';
             $table = $wpdb->prefix . $this->table;
 
-            $sqlQry = "SELECT id FROM $table WHERE gallery_id= %d AND id= %d";
+            $sqlQry = "SELECT id FROM $table WHERE gallery_id= %d AND id= %d  ORDER BY sort_order ASC";
             $id = $wpdb->get_var($wpdb->prepare($sqlQry, [$data['gallery_id'], $data['id']]));
 
             if ($id) {
                 $data['modified_at'] = current_time('mysql');
-                $result = $wpdb->update($table, $data, ['gallery_id' => $data['gallery_id'], 'id' => $data['id']]);
-            } else {
-                $data['created_at'] = current_time('mysql');
-                $result = $this->save($data);
+                return $wpdb->update($table, $data, ['gallery_id' => $data['gallery_id'], 'id' => $data['id']]);
             }
 
-            return $result;
+            return $this->save($data);
         } catch (Exception $e) {
             echo $e->getMessage();
         }

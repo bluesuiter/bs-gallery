@@ -66,21 +66,21 @@ class GalleryController extends ControllerClass
         $galleryId = (new Gallery())->save($data);
 
         $files = getArrayValue($_POST, 'files');
-
         if (!empty($files)) :
-            foreach ($files as $file) :
+            foreach ($files as $key => $file) :
                 $data = [
-                    'id' => getArrayValue($file, 'id'),
+                    'id' => getArrayValue($file, 'file_id'),
                     'gallery_id' => $galleryId,
                     'file_title' => sanitize_text_field(getArrayValue($file, 'file_title')),
                     'file_caption' => sanitize_text_field(getArrayValue($file, 'file_caption')),
                     'file_mime' => getArrayValue($file, 'file_mime'),
                     'file_url' => getArrayValue($file, 'file_url'),
                     'status' => 1,
-                    'created_at' => current_time('mysql'),
-                    'modified_at' => current_time('mysql')
+                    'sort_order' => $key
                 ];
+
                 (new GalleryFile())->save($data);
+
             endforeach;
         endif;
 
@@ -149,9 +149,7 @@ class GalleryController extends ControllerClass
                 $objGalleryFile->removeFileFromGallery($galleryId, $toRemove);
             }
 
-            foreach ($uploadedFiles as $file) :
-                $time = current_time('mysql');
-
+            foreach ($uploadedFiles as $key => $file) :
                 $data = [
                     'id' => getArrayValue($file, 'file_id'),
                     'gallery_id' => $galleryId,
@@ -159,7 +157,8 @@ class GalleryController extends ControllerClass
                     'file_caption' => sanitize_text_field(getArrayValue($file, 'file_caption')),
                     'file_mime' => getArrayValue($file, 'file_mime'),
                     'file_url' => getArrayValue($file, 'file_url'),
-                    'status' => 1
+                    'status' => 1,
+                    'sort_order' => $key
                 ];
 
                 $objGalleryFile->updateOrCreate($data);
