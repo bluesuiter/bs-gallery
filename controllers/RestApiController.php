@@ -30,8 +30,9 @@ class RestApiController extends ControllerClass
 
             /* Navigation Menu */
             register_rest_route('bsgallery', '/(?P<id>\d+)', array(
-                'methods' => 'GET', 'callback' => [$objGallery, 'fetchGallery'],
-                'permission_callback' => [$this, 'permissionCheck']
+                'methods' => 'GET',
+                'callback' => [$objGallery, 'fetchGallery'],
+                'permission_callback' => '__return_true'
             ));
         } catch (Exception $e) {
             write_log($e->getMessage());

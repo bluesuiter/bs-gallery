@@ -45,7 +45,8 @@
                                         <span class="d-block my-1">
                                             <select required name="gallery_template">
                                                 <option value="">Select Template</option>
-                                                <option value="slider">Bootstrap Slider</option>
+                                                <option value="slider01">Bootstrap 5 Slider</option>
+                                                <option value="slider">Bootstrap 4 Slider</option>
                                                 <option value="gallery">Grid Gallery</option>
                                                 <option value="default">No Template</option>
                                             </select>

@@ -198,6 +198,14 @@ class GalleryController extends ControllerClass
                 case 'slider':
                     $template = 'bootstrap-carousel';
                     break;
+
+                case 'slider01':
+                    $template = 'bootstrap5-carousel';
+                    break;
+
+                case 'gallery':
+                    $template = 'gallery';
+                    break;
             }
 
             return bsg_loadView("template/$template", compact('galleryData'));
