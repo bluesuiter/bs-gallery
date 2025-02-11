@@ -4,7 +4,7 @@
  Plugin Name: BS-Gallery
  Plugin URI: 
  Description: BS-Gallery
- Version: 0.9.27
+ Version: 1.1
  Author: BlueSuiter's
  Author URI: 
  */

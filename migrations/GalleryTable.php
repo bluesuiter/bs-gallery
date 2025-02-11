@@ -49,7 +49,7 @@ class GalleryTable
                 status tinyint DEFAULT 1 NOT NULL,
                 created_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 modified_at datetime DEFAULT NULL,
-                PRIMARY KEY (id),
+                PRIMARY KEY (id, gallery_id),
                 CONSTRAINT bsg_gallery 
                 FOREIGN KEY (gallery_id) REFERENCES " . $wpdb->base_prefix . $this->galleryTable . "(id)
             ) $charset_collate;";
@@ -66,8 +66,8 @@ class GalleryTable
         global $wpdb;
 
         $table_name = $wpdb->base_prefix . $this->fileTable;
-        $wpdb->query("ALTER TABLE $table_name CHANGE `created_at` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP");
-        $wpdb->query("ALTER TABLE $table_name CHANGE `modified_at` `modified_at` DATETIME DEFAULT NULL");
-        $wpdb->query("ALTER TABLE $table_name ADD COLUMN sort_order TINYINT DEFAULT 0 AFTER file_mime");
+        $wpdb->query("ALTER TABLE $table_name CHANGE `created_at` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;");
+        $wpdb->query("ALTER TABLE $table_name CHANGE `modified_at` `modified_at` DATETIME DEFAULT NULL;");
+        $wpdb->query("ALTER TABLE $table_name ADD COLUMN sort_order TINYINT DEFAULT 0 AFTER file_mime;");
     }
 }

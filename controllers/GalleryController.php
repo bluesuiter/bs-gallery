@@ -58,7 +58,8 @@ class GalleryController extends ControllerClass
             'gallery_name' => sanitize_text_field(getArrayValue($_POST, 'galleryName')),
             'thumbnail' => sanitize_text_field(getArrayValue($_POST, 'thumbnail')),
             'template' => sanitize_text_field(getArrayValue($_POST, 'gallery_template')),
-            'type' => sanitize_text_field(getArrayValue($_POST, 'galleryType')),
+            'type' => sanitize_text_field(getArrayValue($_POST, 'gallery_type')),
+            'settings' => json_encode(getArrayValue($_POST, 'settings')),
             'created_by' => get_current_user_id(),
             'created_at' => current_time('mysql'),
             'modified_at' => current_time('mysql')
@@ -118,7 +119,8 @@ class GalleryController extends ControllerClass
             'gallery_name' => sanitize_text_field(getArrayValue($_POST, 'galleryName')),
             'thumbnail' => sanitize_text_field(getArrayValue($_POST, 'thumbnail')),
             'template' => sanitize_text_field(getArrayValue($_POST, 'gallery_template')),
-            'type' => sanitize_text_field(getArrayValue($_POST, 'galleryType')),
+            'type' => sanitize_text_field(getArrayValue($_POST, 'gallery_type')),
+            'settings' => json_encode(getArrayValue($_POST, 'settings')),
             'modified_by' => get_current_user_id(),
             'modified_at' => current_time('mysql')
         ];

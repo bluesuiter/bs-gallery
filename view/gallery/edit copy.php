@@ -18,8 +18,8 @@
                 <div class="col-3">
                     <label>Gallery Type</label>
                     <span>
-                        <input type="radio" name="galleryType" value="image" <?= $gallery['type'] == 'image' ? 'checked' : ''; ?> /> Image
-                        <input type="radio" name="galleryType" value="docs" <?= $gallery['type'] == 'docs' ? 'checked' : ''; ?> /> Documents
+                        <input type="radio" name="gallery_type" value="image" <?= $gallery['type'] == 'image' ? 'checked' : ''; ?> /> Image
+                        <input type="radio" name="gallery_type" value="docs" <?= $gallery['type'] == 'docs' ? 'checked' : ''; ?> /> Documents
                     </span>
                 </div>
 

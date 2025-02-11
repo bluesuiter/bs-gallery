@@ -14,10 +14,8 @@
     </div>
     <button class="carousel-control-prev" type="button" data-target="#bs_carousel_<?php echo $galleryData->id; ?>" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
     </button>
     <button class="carousel-control-next" type="button" data-target="#bs_carousel_<?php echo $galleryData->id; ?>" data-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
     </button>
 </div>
