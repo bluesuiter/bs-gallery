@@ -60,14 +60,4 @@ class GalleryTable
             dbDelta($sql);
         }
     }
-
-    public function update()
-    {
-        global $wpdb;
-
-        $table_name = $wpdb->base_prefix . $this->fileTable;
-        $wpdb->query("ALTER TABLE $table_name CHANGE `created_at` `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;");
-        $wpdb->query("ALTER TABLE $table_name CHANGE `modified_at` `modified_at` DATETIME DEFAULT NULL;");
-        $wpdb->query("ALTER TABLE $table_name ADD COLUMN sort_order TINYINT DEFAULT 0 AFTER file_mime;");
-    }
 }

@@ -17,5 +17,3 @@ $swiperJs = "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js";
 register_activation_hook(__FILE__, function () {
     (new \BsGallery\Migrations\Migration())->loadMigrations();
 });
-
-add_action('upgrader_process_complete', (new \BsGallery\Migrations\Migration()), 'upgrade');
