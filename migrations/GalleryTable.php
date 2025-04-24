@@ -25,6 +25,7 @@ class GalleryTable
                 gallery_name tinytext NOT NULL,
                 thumbnail varchar(255) NOT NULL,
                 template varchar(20) NOT NULL,
+                settings json DEFAULT NULL,
                 status tinyint DEFAULT 1 NOT NULL,
                 type enum('image', 'docs') NOT NULL, 
                 created_by bigint(11) NOT NULL,

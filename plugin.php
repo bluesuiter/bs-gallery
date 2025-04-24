@@ -2,11 +2,11 @@
 
 /*
  Plugin Name: BS-Gallery
- Plugin URI: 
+ Plugin URI: https://github.com/bluesuiter/bs-gallery
  Description: BS-Gallery
- Version: 1.1
+ Version: 1.12
  Author: BlueSuiter's
- Author URI: 
+ Author URI: https://amitchauhan.net
  */
 
 require_once(plugin_dir_path(__FILE__) . 'bootstrap.php');
