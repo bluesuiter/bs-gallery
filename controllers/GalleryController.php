@@ -73,7 +73,7 @@ class GalleryController extends ControllerClass
                     'id' => getArrayValue($file, 'file_id'),
                     'gallery_id' => $galleryId,
                     'file_title' => sanitize_text_field(getArrayValue($file, 'file_title')),
-                    'file_caption' => sanitize_text_field(getArrayValue($file, 'file_caption')),
+                    'file_caption' => htmlspecialchars(getArrayValue($file, 'file_caption'), ENT_QUOTES),
                     'file_mime' => getArrayValue($file, 'file_mime'),
                     'file_url' => getArrayValue($file, 'file_url'),
                     'status' => 1,
@@ -156,7 +156,7 @@ class GalleryController extends ControllerClass
                     'id' => getArrayValue($file, 'file_id'),
                     'gallery_id' => $galleryId,
                     'file_title' => sanitize_text_field(getArrayValue($file, 'file_title')),
-                    'file_caption' => sanitize_text_field(getArrayValue($file, 'file_caption')),
+                    'file_caption' => htmlspecialchars(getArrayValue($file, 'file_caption'), ENT_QUOTES),
                     'file_mime' => getArrayValue($file, 'file_mime'),
                     'file_url' => getArrayValue($file, 'file_url'),
                     'status' => 1,
@@ -181,8 +181,10 @@ class GalleryController extends ControllerClass
         $galleryData = $objGallery->find($galleryId);
 
         /** get list of existing files */
-        $objGalleryFile = new GalleryFile();
-        $galleryData->media = $objGalleryFile->getFileByGalleryId($galleryId);
+        if (!empty($galleryData)) {
+            $objGalleryFile = new GalleryFile();
+            $galleryData->media = $objGalleryFile->getFileByGalleryId($galleryId);
+        }
 
         return $galleryData;
     }
@@ -192,26 +194,30 @@ class GalleryController extends ControllerClass
      */
     public function handleGalleryShortcode($args)
     {
+        ob_start();
         if (!empty($args['id'])) {
             $galleryData = $this->show($args['id']);
             $template = '';
 
-            switch ($galleryData->template) {
-                case 'slider':
-                    $template = 'bootstrap-carousel';
-                    break;
+            if (!empty($galleryData)) {
+                switch ($galleryData->template) {
+                    case 'slider':
+                        $template = 'bootstrap-carousel';
+                        break;
 
-                case 'slider01':
-                    $template = 'bootstrap5-carousel';
-                    break;
+                    case 'slider01':
+                        $template = 'bootstrap5-carousel';
+                        break;
 
-                case 'gallery':
-                    $template = 'gallery';
-                    break;
+                    case 'gallery':
+                        $template = 'gallery';
+                        break;
+                }
+
+                bsg_loadView("template/$template", compact('galleryData'));
             }
-
-            return bsg_loadView("template/$template", compact('galleryData'));
         }
+        return ob_get_clean();
     }
 
     public function fetchGallery(\WP_REST_Request $request)

@@ -44,7 +44,7 @@
                 id: row['gfid'],
                 mime: row['file_mime'],
                 title: row['file_title'],
-                caption: row['file_caption']
+                caption: row['file_caption'].replace(/^(.+?)\/*?$/, "$1")
             }
 
             data.url = (data.mime).includes('application') ? '' : row['file_url'];

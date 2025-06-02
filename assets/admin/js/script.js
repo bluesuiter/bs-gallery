@@ -10,22 +10,16 @@ const bsGallery = {
                     <span class="prvImg text-center d-block">
                         <img class="w-75" id="img${rowId}" src="${data.url}"/>
                     </span>
-                    <input type="hidden" class="file_id" value="${
-                      data.id
-                    }" name="files[${rowId}][file_id]"/>
-                    <input type="hidden" class="file_url" value="${
-                      data.url
-                    }" name="files[${rowId}][file_url]"/>
-                    <input type="hidden" class="file_mime" value="${
-                      data.mime
-                    }" name="files[${rowId}][file_mime]"/>
+                    <input type="hidden" class="file_id" value="${data.id}" name="files[${rowId}][file_id]"/>
+                    <input type="hidden" class="file_url" value="${data.url}" name="files[${rowId}][file_url]"/>
+                    <input type="hidden" class="file_mime" value="${data.mime}" name="files[${rowId}][file_mime]"/>
                 </div>
                 <div class="col-7 px-2">
                     <input name="files[${rowId}][file_title]" type="text" value="${bsGallery.stripSlashes(
       data.title
     )}" class="d-block w-100 mb-1 regular-text grtitle" placeholder="File Title"/>
                     <textarea name="files[${rowId}][file_caption]" rows="6" class="resize-none d-block w-100 grcaption" placeholder="File Description">${
-      data.caption
+                      bsGallery.stripSlashes(data.caption)
     }</textarea>
                 </div>
                 <div class="px-2" style="align-self: center;">
