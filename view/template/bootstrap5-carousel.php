@@ -19,16 +19,23 @@
                             </video>
                     <?php break;
                     } ?>
+
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2><?php echo $row['file_title'] ?></h2>
+                    </div>
                 </div>
         <?php
             }
         }
         ?>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#bs_carousel_<?php echo $galleryData->id; ?>" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#bs_carousel_<?php echo $galleryData->id; ?>" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    </button>
+
+    <?php if (count($galleryData->media) > 1) { ?>
+        <button class="carousel-control-prev" type="button" data-bs-target="#bs_carousel_<?php echo $galleryData->id; ?>" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#bs_carousel_<?php echo $galleryData->id; ?>" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    <?php } ?>
 </div>
